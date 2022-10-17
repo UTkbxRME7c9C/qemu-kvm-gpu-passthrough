@@ -16,3 +16,6 @@ IOMMU Group 18:
 IOMMU Group 19:
         09:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 21/23 HDMI/DP Audio Controller [1002:ab28]
 ```
+![alt text][logo]
+
+[logo]: https://raw.githubusercontent.com/awwmbCPmM9Q7xFfM/qemu-kvm-gpu-passthrough/main/image.png
