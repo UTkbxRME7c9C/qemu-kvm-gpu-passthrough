@@ -5,6 +5,7 @@ current setup works for the AMD RX 570, however I am unable to install drivers w
 
 etc.libvirt is for directory /etc/libvirt/
 
+explanation for kvm.conf:
 ```
 IOMMU Group 16:
         07:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 10 XL Upstream Port of PCI Express Switch [1002:1478] (rev c1)
@@ -14,5 +15,4 @@ IOMMU Group 18:
         09:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 23 [Radeon RX 6650 XT] [1002:73ef] (rev c1)
 IOMMU Group 19:
         09:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 21/23 HDMI/DP Audio Controller [1002:ab28]
-IOMMU Group 20:
 ```
