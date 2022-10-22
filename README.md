@@ -1,8 +1,10 @@
 # qemu-kvm-gpu-passthrough
 my pcie passthrough setup for windows 10/11
+
 working on amd ryzen 5 5600x / radeon rx 6650xt
 
 used but may be optional https://github.com/gnif/vendor-reset/
+
 disable resizeable rom on bios
 
 etc.libvirt is for directory /etc/libvirt/
