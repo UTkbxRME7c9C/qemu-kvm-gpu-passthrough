@@ -1,7 +1,7 @@
 # qemu-kvm-gpu-passthrough
-my pcie passthrough setup for windows 10/11
+my pcie passthrough setup for a windows 10/11 vm
 
-working on amd ryzen 5 5600x / radeon rx 6650xt
+works on amd ryzen 5 5600x / radeon rx 6650xt, so should work on similar hardware
 
 used but may be optional https://github.com/gnif/vendor-reset/
 
