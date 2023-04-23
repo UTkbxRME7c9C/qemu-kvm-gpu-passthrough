@@ -2,7 +2,6 @@
 my pcie passthrough setup for a windows 10/11 vm
 
 works on amd ryzen 5 5600x / radeon rx 6650xt, so should work on similar hardware
-https://www.techpowerup.com/vgabios/
 
 used but may be optional https://github.com/gnif/vendor-reset/
 
