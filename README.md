@@ -23,3 +23,16 @@ IOMMU Group 19:
 ![alt text][logo]
 
 [logo]: https://raw.githubusercontent.com/awwmbCPmM9Q7xFfM/qemu-kvm-gpu-passthrough/main/image.png
+
+Extra install notes
+```
+ #Install the packages needed 
+ yay -S qemu-full libvirt edk2-ovmf virt-manager virt-viewer vde2 bridge-utils ebtables dnsmasq libguestfs
+ #Enable libvirt and virtlogd
+ sudo systemctl enable --now libvirtd ; sudo systemctl enable --now virtlogd
+ #QEMU virtual network 
+ sudo virsh net-autostart default ; sudo virsh net-start default
+ #Edit /etc/libvirt/libvirtd.conf and uncomment lines 85, 95, and 108. Restart libvirtd
+ sudo usermod -aG libvirt [YOUR USER]
+ sudo systemctl restart libvirtd
+ ```
