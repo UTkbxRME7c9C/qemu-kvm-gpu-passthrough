@@ -7,7 +7,7 @@ You may have to disable resizable BAR in bios to prevent black screening.
 
 etc.libvirt is for directory /etc/libvirt/. The included XML file also includes optimizations such as CPU pinning.
 
-For reference, here is my relevant IOMMU id's for my graphics card
+The iommu_pci_check.sh script shows all the pci devices, choose only the relevant ones for your graphics card + any others you want in your VM. For reference, here is my relevant IOMMU id's for my graphics card.
 ```
 IOMMU Group 16:
         07:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 10 XL Upstream Port of PCI Express Switch [1002:1478] (rev c1)
