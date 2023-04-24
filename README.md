@@ -45,8 +45,9 @@ Search for it with find
 find /sys/devices -name rom
 ```
 Multiple results? Compare id's with your iommu dump for your GPU. For me it was the first one (09:00.0)
+
 ![image](https://user-images.githubusercontent.com/78610949/233873069-f7824437-438d-4177-bb7f-f96aaf65a8b6.png)
-For me the first one had the rom as 0000:09:00.0 was listed as VGA device.
+
 Now cd to the directory that has the rom and tee it, so you can copy the vbios
 ```echo 1 | sudo tee .```
 Now copy it to your preferred location
