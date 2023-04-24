@@ -10,3 +10,4 @@ for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
 done; 
 
 cat output.txt
+echo "Output saved to output.txt"
