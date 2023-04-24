@@ -24,7 +24,7 @@ IOMMU Group 19:
 
  Install the packages needed
  
- ```yay -S qemu-full libvirt edk2-ovmf virt-manager virt-viewer vde2 bridge-utils ebtables dnsmasq libguestfs```
+ ```yay -S qemu-full libvirt edk2-ovmf virt-manager virt-viewer vde2 bridge-utils ebtables dnsmasq swtpm libguestfs```
  
  Enable libvirt and virtlogd
  
