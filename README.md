@@ -3,7 +3,7 @@ My pcie passthrough setup for a windows 10/11 vm
 
 Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hardware
 
-You may have to disable resizable BAR in bios to prevent black screening.
+Enable IOMMU in your bios. You may also have to disable resizable BAR in bios to prevent black screening.
 
 etc.libvirt is for directory /etc/libvirt/. The included XML file also includes optimizations such as CPU pinning.
 
