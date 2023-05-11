@@ -1,6 +1,8 @@
 # qemu-kvm-gpu-passthrough
 My pcie passthrough setup for a windows 10/11 vm
 
+![image](https://github.com/UTkbxRME7c9C/qemu-kvm-gpu-passthrough/assets/78610949/af2fcba8-7ea2-44b7-b27b-0d181983a9cd)
+
 Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hardware
 
 Enable IOMMU in your bios. You may also have to disable resizable BAR in bios to prevent black screening.
