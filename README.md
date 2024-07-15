@@ -64,7 +64,7 @@ Multiple results? Compare id's with your iommu dump for your GPU. For me it was 
 
 Now cd to the directory that has the rom and tee it, so you can copy the vbios
 
-```echo 1 | sudo tee .```
+```echo 1 | sudo tee rom```
 
 Now copy it to your preferred location
 
