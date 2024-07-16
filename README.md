@@ -5,7 +5,7 @@ My pcie passthrough setup for a windows 10/11 vm
 
 Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hardware
 
-Enable IOMMU in your bios. You may also have to disable resizable BAR in bios to prevent black screening.
+Enable IOMMU and SVM in your bios. You may also have to disable resizable BAR in bios to prevent black screening.
 
 etc.libvirt is for directory /etc/libvirt/. The included XML file also includes optimizations such as CPU pinning.
 
@@ -21,6 +21,10 @@ IOMMU Group 18:
 IOMMU Group 19:
         09:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 21/23 HDMI/DP Audio Controller [1002:ab28]
 ```
+Do this AFTER you completely install Windows. 
+
+[virtio drivers](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/) - Needed for Windows to recognize virtio disks during install, unless if you are passing a whole disk partition 
+
 
 ## Extra install notes for arch users
 
@@ -69,5 +73,20 @@ Now cd to the directory that has the rom and tee it, so you can copy the vbios
 Now copy it to your preferred location
 
 ```sudo cp rom /etc/libvirt/YourGPU.rom```
+## Further issues / fixes
+Try editing your /etc/default/grub and add these options to GRUB_CMDLINE_LINUX_DEFAULT:`amd_iommu=on iommu=pt iommu=1 video=efifb:off disable_idle_d3=1`
 
+Run `chmod +x` on qemu, start.sh, and revert.sh
 
+The AMD autodetect may not be able to recognize your GPU, so make sure you search for your drivers manually. You might also need to run in safe mode to stop the smartass Windows Update from installing its own drivers.
+
+If running the VM boots you back into your display manager, it means your VM had crashed. Figure out the issue by looking through the logs at `/var/log/libvirt/qemu/win11.log`
+> If you have an issue where it cannot find your rom file, try adding a cdrom device with the rom file like this:
+> ```
+><disk type="file" device="cdrom">
+>  <driver name="qemu" type="raw"/>
+>  <source file="/etc/libvirt/YourGPU.rom"/>
+>  <target dev="sdb" bus="sata"/>
+>  <readonly/>
+></disk>
+> ```
