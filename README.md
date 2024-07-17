@@ -78,8 +78,6 @@ Try editing your /etc/default/grub and add these options to GRUB_CMDLINE_LINUX_D
 
 Run `chmod +x` on qemu, start.sh, and revert.sh
 
-The AMD autodetect may not be able to recognize your GPU, so make sure you search for your drivers manually. You might also need to run in safe mode to stop the smartass Windows Update from installing its own drivers.
-
 If running the VM boots you back into your display manager, it means your VM had crashed. Figure out the issue by looking through the logs at `/var/log/libvirt/qemu/win11.log`
 > If you have an issue where it cannot find your rom file, try adding a cdrom device with the rom file like this:
 > ```
