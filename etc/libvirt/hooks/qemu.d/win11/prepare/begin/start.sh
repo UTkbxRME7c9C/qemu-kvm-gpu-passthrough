@@ -2,7 +2,8 @@ set -x
 source "/etc/libvirt/hooks/kvm.conf"
 
 #Stop the display manager
-systemctl stop ly.service
+systemctl stop display-manager
+
 
 echo 0 > /sys/class/vtconsole/vtcon0/bind
 echo 0 > /sys/class/vtconsole/vtcon1/bind
@@ -27,3 +28,8 @@ virsh nodedev-detach $VIRSHGPU2
 modprobe vfio
 modprobe vfio_pci
 modprobe vfio_iommu_type1
+
+# Isolate cpu cores
+systemctl set-property --runtime -- system.slice AllowedCPUs=0,6
+systemctl set-property --runtime -- user.slice AllowedCPUs=0,6
+systemctl set-property --runtime -- init.scope AllowedCPUs=0,6

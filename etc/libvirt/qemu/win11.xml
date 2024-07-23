@@ -7,7 +7,7 @@ or other application using the libvirt API.
 
 <domain type='kvm'>
   <name>win11</name>
-  <uuid>c81c4518-f0b7-4e58-9204-688cbdf72a19</uuid>
+  <uuid>052f08c0-1f9f-4188-862b-4a1cac2be954</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://microsoft.com/win/11"/>
@@ -18,23 +18,52 @@ or other application using the libvirt API.
   <vcpu placement='static'>10</vcpu>
   <iothreads>1</iothreads>
   <cputune>
-    <vcpupin vcpu='0' cpuset='2'/>
-    <vcpupin vcpu='1' cpuset='3'/>
-    <vcpupin vcpu='2' cpuset='4'/>
-    <vcpupin vcpu='3' cpuset='5'/>
-    <vcpupin vcpu='4' cpuset='6'/>
-    <vcpupin vcpu='5' cpuset='7'/>
-    <vcpupin vcpu='6' cpuset='8'/>
-    <vcpupin vcpu='7' cpuset='9'/>
-    <vcpupin vcpu='8' cpuset='10'/>
+    <vcpupin vcpu='0' cpuset='1'/>
+    <vcpupin vcpu='1' cpuset='7'/>
+    <vcpupin vcpu='2' cpuset='2'/>
+    <vcpupin vcpu='3' cpuset='8'/>
+    <vcpupin vcpu='4' cpuset='3'/>
+    <vcpupin vcpu='5' cpuset='9'/>
+    <vcpupin vcpu='6' cpuset='4'/>
+    <vcpupin vcpu='7' cpuset='10'/>
+    <vcpupin vcpu='8' cpuset='5'/>
     <vcpupin vcpu='9' cpuset='11'/>
-    <emulatorpin cpuset='0-1'/>
-    <iothreadpin iothread='1' cpuset='0-1'/>
+    <emulatorpin cpuset='0,6'/>
+    <iothreadpin iothread='1' cpuset='0,6'/>
   </cputune>
-  <os>
-    <type arch='x86_64' machine='pc-q35-7.2'>hvm</type>
-    <loader readonly='yes' secure='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.fd</loader>
-    <boot dev='hd'/>
+  <sysinfo type='smbios'>
+    <bios>
+      <entry name='vendor'>American Megatrends Inc.</entry>
+      <entry name='version'>10.20</entry>
+      <entry name='date'>04/23/2024</entry>
+      <entry name='release'>P10.20</entry>
+    </bios>
+    <system>
+      <entry name='manufacturer'>To Be Filled By O.E.M.</entry>
+      <entry name='product'>B450M Steel Legend</entry>
+      <entry name='version'>To Be Filled By O.E.M.</entry>
+      <entry name='serial'>To Be Filled By O.E.M.</entry>
+      <entry name='uuid'>052f08c0-1f9f-4188-862b-4a1cac2be954</entry>
+      <entry name='sku'>To Be Filled By O.E.M.</entry>
+      <entry name='family'>To Be Filled By O.E.M.</entry>
+    </system>
+    <baseBoard>
+      <entry name='manufacturer'>ASRock</entry>
+      <entry name='product'>B450M Steel Legend</entry>
+      <entry name='version'>P10.20</entry>
+      <entry name='serial'>HQ1359072606208</entry>
+      <entry name='asset'>1</entry>
+    </baseBoard>
+  </sysinfo>
+  <os firmware='efi'>
+    <type arch='x86_64' machine='pc-q35-9.0'>hvm</type>
+    <firmware>
+      <feature enabled='no' name='enrolled-keys'/>
+      <feature enabled='yes' name='secure-boot'/>
+    </firmware>
+    <loader readonly='yes' secure='yes' type='pflash'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
+    <nvram template='/usr/share/edk2/x64/OVMF_VARS.4m.fd'>/var/lib/libvirt/qemu/nvram/win11_VARS.fd</nvram>
+    <smbios mode='sysinfo'/>
   </os>
   <features>
     <acpi/>
@@ -43,16 +72,33 @@ or other application using the libvirt API.
       <relaxed state='on'/>
       <vapic state='on'/>
       <spinlocks state='on' retries='8191'/>
-      <vendor_id state='on' value='dsadas'/>
+      <vpindex state='on'/>
+      <synic state='on'/>
+      <stimer state='on'/>
+      <reset state='on'/>
+      <frequencies state='on'/>
+      <reenlightenment state='off'/>
+      <tlbflush state='on'/>
+      <ipi state='on'/>
+      <evmcs state='off'/>
     </hyperv>
     <vmport state='off'/>
     <smm state='on'/>
   </features>
   <cpu mode='host-passthrough' check='none' migratable='on'>
-    <topology sockets='1' dies='1' cores='5' threads='2'/>
+    <topology sockets='1' dies='1' clusters='1' cores='5' threads='2'/>
+    <cache mode='passthrough'/>
+    <feature policy='disable' name='hypervisor'/>
+    <feature policy='require' name='topoext'/>
+    <feature policy='disable' name='svm'/>
+    <feature policy='require' name='amd-stibp'/>
+    <feature policy='require' name='invtsc'/>
   </cpu>
-  <clock offset='localtime'>
+  <clock offset='utc'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
     <timer name='hpet' present='no'/>
+    <timer name='tsc' present='yes' mode='native'/>
     <timer name='hypervclock' present='yes'/>
   </clock>
   <on_poweroff>destroy</on_poweroff>
@@ -66,9 +112,17 @@ or other application using the libvirt API.
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
     <disk type='block' device='disk'>
       <driver name='qemu' type='raw' cache='none' io='native' discard='unmap'/>
-      <source dev='/dev/sdc1'/>
-      <target dev='sdc' bus='sata'/>
-      <address type='drive' controller='0' bus='0' target='0' unit='2'/>
+      <source dev='/dev/sdb1'/>
+      <target dev='sda' bus='sata'/>
+      <boot order='2'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/etc/libvirt/YourGPU.rom'/>
+      <target dev='sdb' bus='sata'/>
+      <readonly/>
+      <address type='drive' controller='0' bus='0' target='0' unit='1'/>
     </disk>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
       <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
@@ -151,7 +205,7 @@ or other application using the libvirt API.
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <interface type='network'>
-      <mac address='52:54:00:39:be:01'/>
+      <mac address='52:54:00:c6:c8:0f'/>
       <source network='default'/>
       <model type='e1000e'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
@@ -179,21 +233,28 @@ or other application using the libvirt API.
       <rom file='/etc/libvirt/YourGPU.rom'/>
       <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
     </hostdev>
-    <hostdev mode='subsystem' type='usb' managed='yes'>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
       <source>
-        <vendor id='0x0c45'/>
-        <product id='0x652f'/>
+        <address domain='0x0000' bus='0x0b' slot='0x00' function='0x3'/>
       </source>
-      <address type='usb' bus='0' port='3'/>
+      <address type='pci' domain='0x0000' bus='0x08' slot='0x00' function='0x0'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <source>
+        <address domain='0x0000' bus='0x0b' slot='0x00' function='0x4'/>
+      </source>
+      <address type='pci' domain='0x0000' bus='0x07' slot='0x00' function='0x0'/>
     </hostdev>
     <hostdev mode='subsystem' type='usb' managed='yes'>
       <source>
-        <vendor id='0x258a'/>
-        <product id='0x2022'/>
+        <vendor id='0x3434'/>
+        <product id='0x0610'/>
       </source>
       <address type='usb' bus='0' port='1'/>
     </hostdev>
-    <watchdog model='itco' action='none'/>
-    <memballoon model='none'/>
+    <watchdog model='itco' action='reset'/>
+    <memballoon model='virtio'>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </memballoon>
   </devices>
 </domain>

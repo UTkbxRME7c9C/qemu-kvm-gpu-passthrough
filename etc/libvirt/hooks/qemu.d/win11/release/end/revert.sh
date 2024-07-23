@@ -1,6 +1,10 @@
-
 set -x
 source "/etc/libvirt/hooks/kvm.conf"
+
+systemctl set-property --runtime -- system.slice AllowedCPUs=0-11
+systemctl set-property --runtime -- user.slice AllowedCPUs=0-11
+systemctl set-property --runtime -- init.scope AllowedCPUs=0-11
+
 modprobe -r vfio
 modprobe -r vfio_pci
 modprobe -r vfio_iommu_type1
@@ -22,4 +26,4 @@ echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
 echo 1 > /sys/class/vtconsole/vtcon0/bind
 echo 1 > /sys/class/vtconsole/vtcon1/bind
  
-systemctl start ly.service
+systemctl start display-manager
