@@ -104,3 +104,7 @@ If running the VM boots you back into your display manager, it means your VM had
 >  <readonly/>
 ></disk>
 > ```
+
+## Resources
+1. https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
+2. https://github.com/bryansteiner/gpu-passthrough-tutorial
