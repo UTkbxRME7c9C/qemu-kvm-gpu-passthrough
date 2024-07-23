@@ -1,13 +1,19 @@
 # qemu-kvm-gpu-passthrough
-My pcie passthrough setup for a windows 10/11 vm
+My pcie passthrough setup for a windows 10/11 vm. Included XML file and hook scripts.
 
-![image](https://github.com/UTkbxRME7c9C/qemu-kvm-gpu-passthrough/assets/78610949/af2fcba8-7ea2-44b7-b27b-0d181983a9cd)
+![VMM settings](https://github.com/user-attachments/assets/3f763095-0788-4b88-8c04-bdfa65e6b02d)
 
-Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hardware
+Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hardware 
 
-Enable IOMMU and SVM in your bios. You may also have to disable resizable BAR in bios to prevent black screening.
+- Optimizations including CPU pinning, isolation, governor, and hyperv features (Ram hugepages not included because i already have enough ram / startup time isn't worth it)
+- Included smbios imformation from my host PC
+- my SATA passthrough is not ideal as I was also dualbooting at the time (involves making ext4 partition then passing it. Results in nested disk)
+- Passed through two other PCI devices that are built in to the motherboard (AMD cpu's only)
+  - 0b:00.3 - `Starship/Matisse HD Audio Controller`
+  - 0b:00.4 - `Matisse USB 3.0 Host Controller`
+- Motherboard USB 3.0 works but 2.0 and Gen 2 devices need to be passed separately.
 
-etc.libvirt is for directory /etc/libvirt/. The included XML file also includes optimizations such as CPU pinning.
+Enable IOMMU and SVM in your bios (make sure it's updated!). You may also have to disable resizable BAR in bios to prevent black screening.
 
 The iommu_pci_check.sh script shows all the pci devices, choose only the relevant ones for your graphics card + any others you want in your VM. For reference, here is my relevant IOMMU id's for my graphics card.
 
@@ -23,8 +29,7 @@ IOMMU Group 19:
 ```
 Do this AFTER you completely install Windows. 
 
-[virtio drivers](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/) - Needed for Windows to recognize virtio disks during install, unless if you are passing a whole disk partition 
-
+[virtio drivers](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/) - Needed for Windows to recognize virtio disks during install, unless if you are passing a whole disk partition. Do not install spice drivers! 
 
 ## Extra install notes for arch users
 
@@ -73,12 +78,23 @@ Now cd to the directory that has the rom and tee it, so you can copy the vbios
 Now copy it to your preferred location
 
 ```sudo cp rom /etc/libvirt/YourGPU.rom```
+## How to access storage
+Use losetup to mount the partition as a loop disk
+```
+losetup --partscan /dev/loop0 /dev/sdb1
+```
+Unmount the disk using this command. You need to do this before you run unless if you like wasting time reinstalling windows again
+```
+losetup --detach /dev/loop0
+```
+
 ## Further issues / fixes
 Try editing your /etc/default/grub and add these options to GRUB_CMDLINE_LINUX_DEFAULT:`amd_iommu=on iommu=pt iommu=1 video=efifb:off disable_idle_d3=1`
 
-Run `chmod +x` on qemu, start.sh, and revert.sh
+Run `chmod +x` on the exec scrpts, including `qemu` and everything on `/etc/libvirt/hooks/qemu.d/win11`
 
 If running the VM boots you back into your display manager, it means your VM had crashed. Figure out the issue by looking through the logs at `/var/log/libvirt/qemu/win11.log`
+>[!TIP]
 > If you have an issue where it cannot find your rom file, try adding a cdrom device with the rom file like this:
 > ```
 ><disk type="file" device="cdrom">
