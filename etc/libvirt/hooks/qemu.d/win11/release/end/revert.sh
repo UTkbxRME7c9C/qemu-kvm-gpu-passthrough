@@ -1,9 +1,9 @@
 set -x
 source "/etc/libvirt/hooks/kvm.conf"
 
-systemctl set-property --runtime -- system.slice AllowedCPUs=0-11
-systemctl set-property --runtime -- user.slice AllowedCPUs=0-11
-systemctl set-property --runtime -- init.scope AllowedCPUs=0-11
+systemctl set-property --runtime -- system.slice AllowedCPUs=$VIRSHCPUT
+systemctl set-property --runtime -- user.slice AllowedCPUs=$VIRSHCPUT
+systemctl set-property --runtime -- init.scope AllowedCPUs=$VIRSHCPUT
 
 modprobe -r vfio
 modprobe -r vfio_pci

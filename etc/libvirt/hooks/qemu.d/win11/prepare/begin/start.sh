@@ -30,6 +30,6 @@ modprobe vfio_pci
 modprobe vfio_iommu_type1
 
 # Isolate cpu cores
-systemctl set-property --runtime -- system.slice AllowedCPUs=0,6
-systemctl set-property --runtime -- user.slice AllowedCPUs=0,6
-systemctl set-property --runtime -- init.scope AllowedCPUs=0,6
+systemctl set-property --runtime -- system.slice AllowedCPUs=$VIRSHCPUA
+systemctl set-property --runtime -- user.slice AllowedCPUs=$VIRSHCPUA
+systemctl set-property --runtime -- init.scope AllowedCPUs=$VIRSHCPUA
