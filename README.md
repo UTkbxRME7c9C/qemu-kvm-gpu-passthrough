@@ -7,7 +7,7 @@ Works on amd ryzen 5 5600x / radeon rx 6650xt, so it should work on similar hard
 
 - Optimizations including CPU pinning, isolation, governor, and hyperv features (Ram hugepages not included because i already have enough ram / startup time isn't worth it)
 - Included smbios imformation from my host PC
-- my SATA passthrough is not ideal as I was also dualbooting at the time (involves making ext4 partition then passing it. Results in nested disk)
+- my SATA passthrough is not ideal as I was also dualbooting at the time (involves making ext4 partition then passing it. [Results in nested disk](#how-to-access-storage))
 - Passed through two other PCI devices that are built in to the motherboard (AMD cpu's only)
   - 0b:00.3 - `Starship/Matisse HD Audio Controller`
   - 0b:00.4 - `Matisse USB 3.0 Host Controller`
